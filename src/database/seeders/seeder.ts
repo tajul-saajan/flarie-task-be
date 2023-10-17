@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm from '../../typeorm';
 import { Player } from '../../entities/Player';
+import { Reward } from '../../entities/Reward';
+import { RewardSeeder } from './reward.seeder';
 
 seeder({
   imports: [
@@ -16,6 +18,6 @@ seeder({
       useFactory: async (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
-    TypeOrmModule.forFeature([Player]),
+    TypeOrmModule.forFeature([Player, Reward]),
   ],
-}).run([PlayerSeeder]);
+}).run([PlayerSeeder, RewardSeeder]);
