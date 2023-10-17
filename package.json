@@ -22,7 +22,9 @@
     "migration:run": "typeorm=true npm run typeorm migration:run -- -d ./src/typeorm.ts",
     "migration:generate": "npm run typeorm -- -d ./src/typeorm.ts migration:generate ./migrations/$npm_config_name",
     "migration:create": "npm run typeorm -- migration:create ./migrations/$npm_config_name",
-    "migration:revert": "npm run typeorm -- -d ./src/typeorm.ts migration:revert"
+    "migration:revert": "npm run typeorm -- -d ./src/typeorm.ts migration:revert",
+    "seed": "ts-node src/database/seeders/seeder.ts dist/seeder",
+    "seed:refresh": "ts-node src/database/seeders/seeder.ts dist/seeder --refresh"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -31,6 +33,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.0",
     "mysql2": "^3.6.2",
+    "nestjs-seeder": "^0.3.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.17"
