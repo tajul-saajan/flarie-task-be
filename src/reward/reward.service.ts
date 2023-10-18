@@ -42,7 +42,7 @@ export class RewardService {
       );
 
     const today = moment();
-    if (!reward.isValid())
+    if (!this.isValid(reward))
       throw new HttpException(
         'Coupon is not valid anymore',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -92,5 +92,26 @@ export class RewardService {
     });
 
     return firstUnAvailed;
+  }
+
+  async findAllRewards() {
+    return await this.rewardRepository.find();
+  }
+
+  async findAllPlayers() {
+    return await this.playerRepository.find();
+  }
+
+  async findAllCoupons() {
+    return await this.couponRepository.find();
+  }
+
+  async findAllPlayerCoupons() {
+    return await this.playerCouponRepository.find();
+  }
+
+  isValid({ startDate, endDate }): boolean {
+    const today = moment();
+    return today.isBetween(startDate, endDate);
   }
 }
