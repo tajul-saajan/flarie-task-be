@@ -35,12 +35,6 @@ export class RewardService {
       },
     });
 
-    if (!reward || !player)
-      throw new HttpException(
-        'Reward id or Player id is invalid',
-        HttpStatus.NOT_FOUND,
-      );
-
     const today = moment();
     if (!this.isValid(reward))
       throw new HttpException(
