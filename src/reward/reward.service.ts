@@ -1,10 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Reward } from '../entities/Reward';
-import { EntityManager, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CouponRedeemDto } from './dtos/coupon-redeem.dto';
 import * as moment from 'moment';
-import { PlayerCoupon } from '../entities/PlayerCoupon';
 import { PlayerService } from '../player/player.service';
 import { CouponService } from '../coupon/coupon.service';
 import { PlayerCouponService } from '../player-coupon/player-coupon.service';
@@ -28,7 +27,7 @@ export class RewardService {
     if (!this.isValid(reward))
       throw new HttpException(
         'Coupon is not valid anymore',
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        HttpStatus.PRECONDITION_FAILED,
       );
 
     const availedCoupons =

@@ -7,7 +7,6 @@ import { RewardModule } from './reward/reward.module';
 import { APP_PIPE } from '@nestjs/core';
 import { AppService } from './app.service';
 import { Exists } from './validators/exists.validator';
-import { PlayerCouponService } from './player-coupon/player-coupon.service';
 
 @Module({
   imports: [

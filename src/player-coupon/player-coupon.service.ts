@@ -24,7 +24,7 @@ export class PlayerCouponService {
     if (allRedeemedCouponCount >= reward.totalLimit)
       throw new HttpException(
         'total limit already has been reached',
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        HttpStatus.PRECONDITION_FAILED,
       );
     const todayRedeemedCouponCount = await query
       .clone()
@@ -34,7 +34,7 @@ export class PlayerCouponService {
     if (todayRedeemedCouponCount >= reward.perDayLimit)
       throw new HttpException(
         'daily limit already has been reached',
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        HttpStatus.PRECONDITION_FAILED,
       );
 
     return await query.clone().loadAllRelationIds().getMany();
