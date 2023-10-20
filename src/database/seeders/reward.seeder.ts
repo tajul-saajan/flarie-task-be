@@ -18,22 +18,34 @@ export class RewardSeeder implements Seeder {
     const rewardsToCreate: Partial<Reward>[] = [
       {
         name: 'Valid Reward',
-        startDate: this.moment.subtract(2, 'days').startOf('day').toDate(),
-        endDate: this.moment.add(3, 'days').endOf('day').toDate(),
+        startDate: this.moment
+          .clone()
+          .subtract(2, 'days')
+          .startOf('day')
+          .toDate(),
+        endDate: this.moment.clone().add(3, 'days').endOf('day').toDate(),
         perDayLimit: 2,
         totalLimit: 5,
       },
       {
         name: 'InValid Reward as date is expired',
-        startDate: this.moment.subtract(5, 'days').startOf('day').toDate(),
-        endDate: this.moment.subtract(3, 'days').endOf('day').toDate(),
+        startDate: this.moment
+          .clone()
+          .subtract(5, 'days')
+          .startOf('day')
+          .toDate(),
+        endDate: this.moment.clone().subtract(3, 'days').endOf('day').toDate(),
         perDayLimit: 2,
         totalLimit: 5,
       },
       {
         name: 'InValid Reward as it exceeds total limit',
-        startDate: this.moment.subtract(5, 'days').startOf('day').toDate(),
-        endDate: this.moment.subtract(3, 'days').endOf('day').toDate(),
+        startDate: this.moment
+          .clone()
+          .subtract(5, 'days')
+          .startOf('day')
+          .toDate(),
+        endDate: this.moment.clone().subtract(3, 'days').endOf('day').toDate(),
         perDayLimit: 2,
         totalLimit: 0,
       },

@@ -110,7 +110,7 @@ export class RewardService {
     return await this.playerCouponRepository.find();
   }
 
-  isValid({ startDate, endDate }): boolean {
+  isValid({ startDate, endDate }: Reward): boolean {
     const today = moment();
     return today.isBetween(startDate, endDate);
   }

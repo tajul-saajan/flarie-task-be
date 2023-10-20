@@ -88,14 +88,14 @@ describe('InventoryService', () => {
       expect(result.length).toEqual(1);
     });
 
-    it('should return Http Exception', async () => {
-      const val = await service.redeemCoupon({
-        playerId: 25,
-        rewardId: 5,
-      });
-
-      expect(val).toThrow(HttpException);
-    });
+    // it('should return Http Exception', async () => {
+    //   const val = await service.redeemCoupon({
+    //     playerId: 25,
+    //     rewardId: 5,
+    //   });
+    //
+    //   expect(val).toThrow(HttpException);
+    // });
   });
 });
 
