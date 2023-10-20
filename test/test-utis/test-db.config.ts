@@ -4,6 +4,7 @@ import { Reward } from '../../src/entities/Reward';
 import { Player } from '../../src/entities/Player';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
+// @todo get from env file as it poses security risks
 export default {
   type: 'mysql',
   host: 'localhost',
