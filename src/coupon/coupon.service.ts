@@ -9,10 +9,14 @@ export class CouponService {
     @InjectRepository(Coupon) private readonly repository: Repository<Coupon>,
   ) {}
 
-  async getFirstUnRedeemed(redeemedIds: number[] | null) {
+  async getFirstUnRedeemed(rewardId: number, redeemedIds: number[] | null) {
     if (!redeemedIds) redeemedIds = [];
-    return await this.repository.findOne({
-      where: { id: Not(In(redeemedIds)) },
-    });
+    return this.repository
+      .createQueryBuilder('coupon')
+      .loadAllRelationIds()
+      .where('coupon.Reward=:id', { id: rewardId })
+      .andWhere({ id: Not(In(redeemedIds)) })
+      .select(['coupon.id', 'coupon.value'])
+      .getOne();
   }
 }
