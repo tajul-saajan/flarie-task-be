@@ -7,12 +7,10 @@ import { RewardService } from '../src/reward/reward.service';
 import { Coupon } from '../src/entities/Coupon';
 import { PlayerCoupon } from '../src/entities/PlayerCoupon';
 import { Player } from '../src/entities/Player';
-import { HttpException } from '@nestjs/common';
 
 describe('InventoryService', () => {
   let service: RewardService;
   let rewardRepository: Repository<Reward>;
-  let playerRepository: Repository<Player>;
   let couponRepository: Repository<Coupon>;
   let playerCouponRepository: Repository<PlayerCoupon>;
 
@@ -44,9 +42,6 @@ describe('InventoryService', () => {
     rewardRepository = module.get<Repository<Reward>>(
       getRepositoryToken(Reward),
     );
-    playerRepository = module.get<Repository<Player>>(
-      getRepositoryToken(Player),
-    );
     couponRepository = module.get<Repository<Coupon>>(
       getRepositoryToken(Coupon),
     );
@@ -64,12 +59,6 @@ describe('InventoryService', () => {
       jest.spyOn(rewardRepository, 'find').mockResolvedValueOnce(REWARDS);
       const result = await service.findAllRewards();
       expect(result.length).toEqual(4);
-    });
-
-    it('it should return 3 player items', async () => {
-      jest.spyOn(playerRepository, 'find').mockResolvedValueOnce(PLAYERS);
-      const result = await service.findAllPlayers();
-      expect(result.length).toEqual(3);
     });
 
     it('it should return 3 coupons items', async () => {
@@ -132,12 +121,6 @@ const REWARDS: Reward[] = [
     perDayLimit: 2,
     totalLimit: 0,
   },
-];
-
-const PLAYERS: Player[] = [
-  { id: 1, name: 'Player 1' },
-  { id: 2, name: 'Player 2' },
-  { id: 3, name: 'Player 3' },
 ];
 
 const COUPONS = [

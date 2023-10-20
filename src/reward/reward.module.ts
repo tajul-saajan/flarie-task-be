@@ -7,6 +7,7 @@ import { Reward } from '../entities/Reward';
 import { Player } from '../entities/Player';
 import { PlayerCoupon } from '../entities/PlayerCoupon';
 import { Coupon } from '../entities/Coupon';
+import { PlayerService } from '../player/player.service';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { Coupon } from '../entities/Coupon';
     TypeOrmModule.forFeature([Reward, Player, PlayerCoupon, Coupon]),
   ],
   controllers: [RewardController],
-  providers: [RewardService],
+  providers: [RewardService, PlayerService],
 })
 export class RewardModule {}

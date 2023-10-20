@@ -7,14 +7,14 @@ import { Player } from '../entities/Player';
 import * as moment from 'moment';
 import { PlayerCoupon } from '../entities/PlayerCoupon';
 import { Coupon } from '../entities/Coupon';
+import { PlayerService } from '../player/player.service';
 
 @Injectable()
 export class RewardService {
   constructor(
     @InjectRepository(Reward)
     private readonly rewardRepository: Repository<Reward>,
-    @InjectRepository(Player)
-    private readonly playerRepository: Repository<Player>,
+    private readonly playerService: PlayerService,
     @InjectRepository(PlayerCoupon)
     private readonly playerCouponRepository: Repository<PlayerCoupon>,
     @InjectRepository(Coupon)
@@ -29,10 +29,8 @@ export class RewardService {
         id: rewardId,
       },
     });
-    const player = await this.playerRepository.findOne({
-      where: {
-        id: playerId,
-      },
+    const player = await this.playerService.findOneBy({
+      id: playerId,
     });
 
     const today = moment();
@@ -90,10 +88,6 @@ export class RewardService {
 
   async findAllRewards() {
     return await this.rewardRepository.find();
-  }
-
-  async findAllPlayers() {
-    return await this.playerRepository.find();
   }
 
   async findAllCoupons() {
