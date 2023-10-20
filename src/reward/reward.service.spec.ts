@@ -7,6 +7,7 @@ import { PlayerService } from '../player/player.service';
 import { PlayerCoupon } from '../entities/PlayerCoupon';
 import { Coupon } from '../entities/Coupon';
 import { Player } from '../entities/Player';
+import { CouponService } from '../coupon/coupon.service';
 
 describe('RewardService', () => {
   let service: RewardService;
@@ -30,6 +31,7 @@ describe('RewardService', () => {
           provide: getRepositoryToken(PlayerCoupon),
           useClass: Repository,
         },
+        CouponService,
         {
           provide: getRepositoryToken(Coupon),
           useClass: Repository,

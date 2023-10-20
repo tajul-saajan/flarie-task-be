@@ -3,11 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Reward } from '../entities/Reward';
 import { Repository } from 'typeorm';
 import { CouponRedeemDto } from './dtos/coupon-redeem.dto';
-import { Player } from '../entities/Player';
 import * as moment from 'moment';
 import { PlayerCoupon } from '../entities/PlayerCoupon';
-import { Coupon } from '../entities/Coupon';
 import { PlayerService } from '../player/player.service';
+import { CouponService } from '../coupon/coupon.service';
 
 @Injectable()
 export class RewardService {
@@ -17,8 +16,7 @@ export class RewardService {
     private readonly playerService: PlayerService,
     @InjectRepository(PlayerCoupon)
     private readonly playerCouponRepository: Repository<PlayerCoupon>,
-    @InjectRepository(Coupon)
-    private readonly couponRepository: Repository<Coupon>,
+    private readonly couponService: CouponService,
   ) {}
 
   async redeemCoupon(dto: CouponRedeemDto) {
@@ -27,7 +25,6 @@ export class RewardService {
     const reward = await this.findOneBy({ id: rewardId });
     const player = await this.playerService.findOneBy({ id: playerId });
 
-    const today = moment();
     if (!this.isValid(reward))
       throw new HttpException(
         'Coupon is not valid anymore',
@@ -48,7 +45,7 @@ export class RewardService {
     const allRedeemedCouponCount = await query.clone().getCount();
     if (allRedeemedCouponCount >= reward.totalLimit)
       throw new HttpException(
-        'total limit already reached',
+        'total limit already has been reached',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     const todayRedeemedCouponCount = await query
@@ -58,7 +55,7 @@ export class RewardService {
 
     if (todayRedeemedCouponCount >= reward.perDayLimit)
       throw new HttpException(
-        'daily limit already reached',
+        'daily limit already has been reached',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
 
@@ -66,26 +63,24 @@ export class RewardService {
 
     const ids = availedCoupons.map((c) => c.coupon);
 
-    const firstUnAvailed = await this.couponRepository
-      .createQueryBuilder('coupon')
-      .where('coupon.id NOT IN (:...ids)', { ids })
-      .getOneOrFail();
+    const firstUnRedeemed = await this.couponService.getFirstUnRedeemed(
+      ids as unknown as number[],
+    );
+
+    if (!firstUnRedeemed)
+      throw new HttpException('no coupon left to redeem', HttpStatus.NOT_FOUND);
 
     await this.playerCouponRepository.save({
-      coupon: firstUnAvailed,
+      coupon: firstUnRedeemed,
       player: player,
-      redeemedAt: today.toDate(),
+      redeemedAt: moment().toDate(),
     });
 
-    return firstUnAvailed;
+    return firstUnRedeemed;
   }
 
   async findAllRewards() {
     return await this.rewardRepository.find();
-  }
-
-  async findAllCoupons() {
-    return await this.couponRepository.find();
   }
 
   async findAllPlayerCoupons() {

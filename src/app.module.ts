@@ -7,7 +7,6 @@ import { RewardModule } from './reward/reward.module';
 import { APP_PIPE } from '@nestjs/core';
 import { AppService } from './app.service';
 import { Exists } from './validators/exists.validator';
-import { CouponService } from './coupon/coupon.service';
 
 @Module({
   imports: [
@@ -30,7 +29,6 @@ import { CouponService } from './coupon/coupon.service';
       provide: APP_PIPE,
       useClass: ValidationPipe,
     },
-    CouponService,
   ],
 })
 export class AppModule {}
