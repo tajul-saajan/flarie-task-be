@@ -24,14 +24,8 @@ export class RewardService {
   async redeemCoupon(dto: CouponRedeemDto) {
     const { playerId, rewardId } = dto;
 
-    const reward = await this.rewardRepository.findOne({
-      where: {
-        id: rewardId,
-      },
-    });
-    const player = await this.playerService.findOneBy({
-      id: playerId,
-    });
+    const reward = await this.findOneBy({ id: rewardId });
+    const player = await this.playerService.findOneBy({ id: playerId });
 
     const today = moment();
     if (!this.isValid(reward))
@@ -101,5 +95,9 @@ export class RewardService {
   isValid({ startDate, endDate }: Reward): boolean {
     const today = moment();
     return today.isBetween(startDate, endDate);
+  }
+
+  async findOneBy(reward: Partial<Reward>) {
+    return await this.rewardRepository.findOneBy({ ...reward });
   }
 }
