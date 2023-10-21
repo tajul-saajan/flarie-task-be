@@ -7,6 +7,11 @@ $ npm install
 ```
 
 ## Migration
+copy .env file from .env.example
+
+```bash
+$ cp .env.example .env
+```
 
 update your mysql config in `env` file
 

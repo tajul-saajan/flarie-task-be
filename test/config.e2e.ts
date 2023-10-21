@@ -18,7 +18,7 @@ export class TestDBInitiator {
 
   constructor() {
     this.configService = new ConfigService();
-    const config = testDbConfig;
+    const config = testDbConfig(this.configService);
 
     this.initialDatabase = config.database;
     this.dbOptions = {
