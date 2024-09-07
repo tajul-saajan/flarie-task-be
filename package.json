@@ -37,7 +37,7 @@
     "moment": "^2.29.4",
     "mysql2": "^3.6.2",
     "nestjs-seeder": "^0.3.2",
-    "reflect-metadata": "^0.1.13",
+    "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.17"
   },
